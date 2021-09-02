@@ -45,6 +45,7 @@ async function formatVersion3(options: FormatOptions): Promise<boolean> {
     dotnetFormatOptions.push("--dry-run");
   }
 
+  info(`extra run args supplied ${options.args}`);
   if (options.args) {
     dotnetFormatOptions.push(options.args);
   }
