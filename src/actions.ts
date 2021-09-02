@@ -7,7 +7,7 @@ export async function check(): Promise<void> {
   const onlyChangedFiles = getInput("only-changed-files") === "true";
   const failFast = getInput("fail-fast") === "true";
   const version = getInput("version", { required: true });
-  const args = getInput("run-args", { required: false });
+  const args = getInput("run-args");
 
   const dotnetFormatVersion = checkVersion(version);
 
@@ -28,7 +28,7 @@ export async function check(): Promise<void> {
 export async function fix(): Promise<void> {
   const onlyChangedFiles = getInput("only-changed-files") === "true";
   const version = getInput("version", { required: true });
-  const args = getInput("run-args", { required: false });
+  const args = getInput("run-args");
 
   const dotnetFormatVersion = checkVersion(version);
 
