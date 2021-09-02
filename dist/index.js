@@ -7328,6 +7328,7 @@ async function run() {
     }
     catch (error) {
         if (error instanceof Error) {
+            (0,core.error)(error.message);
             (0,core.setFailed)(error.message);
         }
         else {

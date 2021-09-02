@@ -1,12 +1,6 @@
-import {
-  getInput,
-  setFailed,
-} from "@actions/core";
+import { getInput, setFailed, error as logError } from "@actions/core";
 
-import {
-  check,
-  fix,
-} from "./actions";
+import { check, fix } from "./actions";
 
 export async function run(): Promise<void> {
   try {
@@ -26,6 +20,7 @@ export async function run(): Promise<void> {
     }
   } catch (error) {
     if (error instanceof Error) {
+      logError(error.message);
       setFailed(error.message);
     } else {
       throw error;
