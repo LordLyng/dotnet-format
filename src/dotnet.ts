@@ -1,8 +1,4 @@
-import {
-  debug,
-  info,
-  warning,
-} from "@actions/core";
+import { debug, info, warning } from "@actions/core";
 import { exec } from "@actions/exec";
 import { context } from "@actions/github";
 import { which } from "@actions/io";
@@ -18,15 +14,21 @@ export type FormatFunction = (options: FormatOptions) => Promise<boolean>;
 export interface FormatOptions {
   dryRun: boolean;
   onlyChangedFiles: boolean;
+  args: string;
 }
 
 function formatOnlyChangedFiles(onlyChangedFiles: boolean): boolean {
   if (onlyChangedFiles) {
-    if (context.eventName === "issue_comment" || context.eventName === "pull_request") {
+    if (
+      context.eventName === "issue_comment" ||
+      context.eventName === "pull_request"
+    ) {
       return true;
     }
 
-    warning("Formatting only changed files is available on the issue_comment and pull_request events only");
+    warning(
+      "Formatting only changed files is available on the issue_comment and pull_request events only"
+    );
 
     return false;
   }
@@ -41,6 +43,10 @@ async function formatVersion3(options: FormatOptions): Promise<boolean> {
 
   if (options.dryRun) {
     dotnetFormatOptions.push("--dry-run");
+  }
+
+  if (options.args) {
+    dotnetFormatOptions.push(options.args);
   }
 
   if (formatOnlyChangedFiles(options.onlyChangedFiles)) {
@@ -58,7 +64,11 @@ async function formatVersion3(options: FormatOptions): Promise<boolean> {
   }
 
   const dotnetPath: string = await which("dotnet", true);
-  const dotnetResult = await exec(`"${dotnetPath}"`, dotnetFormatOptions, execOptions);
+  const dotnetResult = await exec(
+    `"${dotnetPath}"`,
+    dotnetFormatOptions,
+    execOptions
+  );
 
   return !!dotnetResult;
 }

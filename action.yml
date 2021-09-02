@@ -33,6 +33,11 @@ inputs:
     required: false
     default: "true"
 
+  run-args:
+    description: "Extra run args passed to dotnet"
+    required: false
+    default: ""
+
 outputs:
   has-changes:
     description: "A value indicating if any files were formatted"
